@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('disks', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('token')
-                ->unique();
             $table->timestamps();
-            $table->foreignUuid('user_id')
-                ->constrained()
-                ->cascadeOnDelete();
-            $table->string('name');
-            // $table->string('license_plate');
+            $table->integer('serial_number');
+            $table->string('token');
+            $table->boolean('is_paired')->default(false);
+            $table->foreignUuid('user_id')->nullable()->default(null)->constrained('users')->nullOnDelete();
+            $table->integer('angle')->default(0);
         });
+
     }
 
     /**
