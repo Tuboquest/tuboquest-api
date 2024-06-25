@@ -6,9 +6,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -23,6 +25,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
+        'app_installed',
+        'passcode',
+        'is_premium',
     ];
 
     /**
@@ -46,5 +52,22 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function disk(): HasOne
+    { 
+        return $this->hasOne(Disk::class);
+    }
+    public function addresses(): HasMany
+    { 
+        return $this->hasMany(Address::class);
+    }
+    public function payments(): HasMany
+    { 
+        return $this->hasMany(Payment::class);
+    }
+    public function subscriptions(): HasMany
+    { 
+        return $this->hasMany(Subscription::class);
     }
 }

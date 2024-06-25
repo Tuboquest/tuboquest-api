@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('is_paired')->default(false);
             $table->foreignUuid('user_id')->nullable()->default(null)->constrained('users')->nullOnDelete();
             $table->integer('angle')->default(0);
+            $table->string('pairing_code', 4);
         });
 
     }
