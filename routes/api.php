@@ -27,6 +27,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/set-passcode', [AuthController::class, 'setPasscode'])
         ->name('set-passcode');
 
+    Route::post('/forgot-passcode', [AuthController::class, 'forgotPasscode'])
+        ->name('forgot-passcode');
+
     Route::post('/verify-passcode', [AuthController::class, 'verifyPasscode'])
         ->name('verify-passcode');
 

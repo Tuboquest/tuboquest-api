@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('park_sessions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
-            $table->foreignId('disk_id')->nullable()->default(null)->constrained('disks')->nullOnDelete();
+            $table->foreignUuid('disk_id')->nullable()->default(null)->constrained('disks')->nullOnDelete();
             $table->dateTime('started_at');
             $table->dateTime('ended_at');
-            $table->foreignId('address_id')->nullable()->default(null)->constrained("addresses")->nullOnDelete();
+            $table->foreignUuid('address_id')->nullable()->default(null)->constrained("addresses")->nullOnDelete();
             $table->boolean('is_current')->default(false);
         });
     }

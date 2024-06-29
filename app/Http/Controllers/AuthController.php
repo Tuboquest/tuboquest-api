@@ -59,6 +59,8 @@ class AuthController extends Controller
 
     public function forgotPassword(Request $request) {
     }
+    
+    public function forgotPasscode(Request $request) {}
 
     public function resetPassword(Request $request) {}
 }
