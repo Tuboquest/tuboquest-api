@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('disks', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
-            $table->integer('serial_number');
+            $table->string('serial_number');
             $table->string('token');
             $table->boolean('is_paired')->default(false);
             $table->foreignUuid('user_id')->nullable()->default(null)->constrained('users')->nullOnDelete();
