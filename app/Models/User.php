@@ -38,7 +38,9 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $hidden = [
         'password',
+        'id',
         'remember_token',
+        'passcode'
     ];
 
     /**
@@ -51,6 +53,9 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
+            'app_installed' => 'boolean',
+            'is_premium' => 'boolean',
         ];
     }
 
