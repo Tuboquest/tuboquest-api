@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->timestamps();
             $table->string('name');
             $table->string('description');
             $table->float('amount');
             $table->string('stripe_id')->nullable();
-            $table->integer('duration')->default(1); #months
+            $table->integer('duration')->default(1);
         });
     }
 

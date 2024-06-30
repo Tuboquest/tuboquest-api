@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DiskResource extends Resource
 {
@@ -23,20 +21,12 @@ class DiskResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('serial_number')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('token')
-                    ->required(),
-                Forms\Components\Toggle::make('is_paired')
-                    ->required(),
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name'),
-                Forms\Components\TextInput::make('angle')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
                 Forms\Components\TextInput::make('pairing_code')
+                    ->maxLength(4)
+                    ->minLength(4)
+                    ->numeric()
                     ->required(),
             ]);
     }

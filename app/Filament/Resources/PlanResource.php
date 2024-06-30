@@ -30,8 +30,8 @@ class PlanResource extends Resource
                 Forms\Components\TextInput::make('amount')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('stripe_id'),
                 Forms\Components\TextInput::make('duration')
+                    ->label('Duration in months')
                     ->required()
                     ->numeric()
                     ->default(1),

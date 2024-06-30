@@ -11,14 +11,24 @@ class RegistrationTest extends TestCase
 
     public function test_new_users_can_register(): void
     {
-        $response = $this->post('/register', [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $response = $this->postJson('/api/register', [
+            'name' => 'John Doe',
+            'email' => '',
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);
 
+        $response->assertStatus(201);
+
+        $response->assertJsonStructure(['token']);
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'John Doe',
+            'email' => '',
+        ]);
+
         $this->assertAuthenticated();
-        $response->assertNoContent();
+
+        $this->assertAuthenticatedAs($response->json('user'));
     }
 }

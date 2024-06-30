@@ -19,24 +19,9 @@ class SubscriptionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name'),
-                Forms\Components\Select::make('plan_id')
-                    ->relationship('plan', 'name'),
-                Forms\Components\DateTimePicker::make('start_date')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('end_date')
-                    ->required(),
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('payment_id')
-                    ->numeric(),
-            ]);
+    public static function canCreate(): bool
+    { 
+        return false;
     }
 
     public static function table(Table $table): Table
@@ -77,7 +62,6 @@ class SubscriptionResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -97,8 +81,6 @@ class SubscriptionResource extends Resource
     {
         return [
             'index' => Pages\ListSubscriptions::route('/'),
-            'create' => Pages\CreateSubscription::route('/create'),
-            'edit' => Pages\EditSubscription::route('/{record}/edit'),
         ];
     }
 }

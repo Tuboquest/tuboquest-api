@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->timestamps();
             $table->foreignUuid('user_id')->nullable()->default(null)->constrained('users')->nullOnDelete();
-            $table->string('is_favorite')->default(false);
+            $table->boolean('is_favorite')->default(false);
             $table->string('address');
         });
     }

@@ -25,9 +25,9 @@ class AddressResource extends Resource
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name'),
-                Forms\Components\TextInput::make('is_favorite')
-                    ->required(),
                 Forms\Components\TextInput::make('address')
+                    ->required(),
+                Forms\Components\Toggle::make('is_favorite')
                     ->required(),
             ]);
     }
@@ -50,8 +50,8 @@ class AddressResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('is_favorite')
-                    ->searchable(),
+                Tables\Columns\IconColumn::make('is_favorite')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('address')
                     ->searchable(),
             ])

@@ -10,38 +10,47 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_users_can_authenticate_using_the_login_screen(): void
+    public function test_users_can_authenticate(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->post('/login', [
+        $response = $this->postJson('/api/login', [
             'email' => $user->email,
             'password' => 'password',
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertNoContent();
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['token']);
+
+        dd($response);
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
 
-        $this->post('/login', [
+        $response = $this->postJson('/api/login', [
             'email' => $user->email,
-            'password' => 'wrong-password',
+            'password' => 'invalid-password',
         ]);
 
-        $this->assertGuest();
+        $response->assertStatus(401);
     }
 
     public function test_users_can_logout(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post('/logout');
+        $response = $this->postJson('/api/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
 
-        $this->assertGuest();
-        $response->assertNoContent();
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['token']);
+
+        $response = $this->postJson('/api/logout');
+
+        $response->assertStatus(204);
     }
 }

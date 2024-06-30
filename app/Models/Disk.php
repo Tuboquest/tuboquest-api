@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Disk extends Model
 {
@@ -26,6 +27,18 @@ class Disk extends Model
         'pairing_code',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($disk) {
+            $disk->angle = 0;
+            $disk->serial_number = Str::random(20);
+            $disk->token = bin2hex(random_bytes(32));
+            $disk->is_paired = $disk->user_id !== null;
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -33,7 +46,7 @@ class Disk extends Model
 
     public function sessions(): HasMany
     { 
-        return $this->hasMany(Session::class);
+        return $this->hasMany(ParkSession::class);
     }
 }
 

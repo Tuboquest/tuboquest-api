@@ -19,21 +19,6 @@ class PaymentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name'),
-                Forms\Components\TextInput::make('amount')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('currency')
-                    ->required(),
-                Forms\Components\TextInput::make('status')
-                    ->numeric(),
-            ]);
-    }
 
     public static function table(Table $table): Table
     {
@@ -66,7 +51,6 @@ class PaymentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -74,20 +58,16 @@ class PaymentResource extends Resource
                 ]),
             ]);
     }
-
-    public static function getRelations(): array
+    
+    public static function canCreate(): bool
     {
-        return [
-            //
-        ];
+        return false;
     }
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListPayments::route('/'),
-            'create' => Pages\CreatePayment::route('/create'),
-            'edit' => Pages\EditPayment::route('/{record}/edit'),
         ];
     }
 }
