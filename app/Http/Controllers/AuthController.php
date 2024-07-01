@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\SetPasscodeRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\SetPasscodeRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function login(LoginRequest $request) {
-        $request->authenticate();
-    
+        if (!auth()->attempt($request->validated())) {
+            return response()->json(['message' => 'Invalid credentials'], 422);
+        }
+
         $token = $request->user()->createToken('auth_token')->plainTextToken;
 
         return response()->json(
