@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 
 class SetPasscodeRequest extends FormRequest
@@ -25,5 +26,10 @@ class SetPasscodeRequest extends FormRequest
         return [
             'passcode' => ['required', 'string', 'min:4', 'max:4', 'digits:4']
         ];
+    }
+
+    public function failedValidation($validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }
