@@ -10,8 +10,10 @@ class DiskController extends Controller
 {
     public function index()
     {
-        return DiskResource::collection(
-            Disk::unpaired()->get()
+        return response()->json(
+            DiskResource::collection(
+                Disk::unpaired()->get()
+            )
         );
     }
 
