@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
-            $table->foreignId('user_id')->nullable()->default(null)->constrained('users')->nullOnDelete();
-            $table->foreignId('plan_id')->nullable()->default(null)->constrained('plans')->nullOnDelete();
+            $table->foreignUuid('user_id')->nullable()->default(null)->constrained('users')->nullOnDelete();
+            $table->foreignUuid('plan_id')->nullable()->default(null)->constrained('plans')->nullOnDelete();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->integer('status');
-            $table->foreignId('payment_id')->nullable()->default(null)->constrained('payments')->nullOnDelete();
+            $table->foreignUuid('payment_id')->nullable()->default(null)->constrained('payments')->nullOnDelete();
         });
     }
 

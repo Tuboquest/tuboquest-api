@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable, HasApiTokens, HasUuids;
 
@@ -38,7 +38,9 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'id',
         'remember_token',
+        'passcode'
     ];
 
     /**
@@ -51,6 +53,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
+            'app_installed' => 'boolean',
+            'is_premium' => 'boolean',
         ];
     }
 
@@ -58,16 +63,24 @@ class User extends Authenticatable
     { 
         return $this->hasOne(Disk::class);
     }
+
     public function addresses(): HasMany
     { 
         return $this->hasMany(Address::class);
     }
+
     public function payments(): HasMany
     { 
         return $this->hasMany(Payment::class);
     }
+
     public function subscriptions(): HasMany
     { 
         return $this->hasMany(Subscription::class);
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->is_admin;
     }
 }

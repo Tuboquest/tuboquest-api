@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
-            $table->foreignId('user_id')->nullable()->default(null)->constrained('users')->nullOnDelete();
+            $table->foreignUuid('user_id')
+                ->nullable()
+                ->default(null)
+                ->constrained('users')
+                ->nullOnDelete();
             $table->float('amount');
             $table->string('currency');
             $table->integer('status')->nullable();

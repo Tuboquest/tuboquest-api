@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TestEmail;
 
 Route::get('/', function () {
-    return view('welcome');
+    return ['Laravel' => app()->version()];
 });
 
 // Route::get('/battery-lvl', [BatteryStatus::class, 'getBatteryLvL']);

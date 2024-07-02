@@ -4,21 +4,52 @@ namespace Database\Seeders;
 
 use App\Models\Disk;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        Disk::factory(5)->create();
+
+        $default = User::factory()
+            ->has(Disk::factory())
+            ->create([
+                'name' => 'John',
+                'email' => 'john@tuboquest.fr',
+            ]);
+
+        $default->addresses()->create([
+            'address' => '13 rue de la paix, 67000 Strasbourg',
+            'is_favorite' => true,
         ]);
 
-        Disk::factory(10)->create();
+        $premium = User::factory()
+            ->has(Disk::factory())
+            ->create([
+                'name' => 'Mathias',
+                'email' => 'mathias@tuboquest.fr',
+                'is_premium' => true,
+            ]);
+
+        $premium->addresses()->create([
+            'address' => '13 Allée des marquises, 67000, Strasbourg',
+            'is_favorite' => true,
+        ]);
+
+        // todo: create payment and subscription
+
+        $admin = User::factory()
+            ->has(Disk::factory())
+            ->create([
+                'name' => 'Willy',
+                'email' => 'willy@tuboquest.fr',
+                'is_admin' => true,
+            ]);
+
+        $admin->addresses()->create([
+            'address' => '1 rue de Rivétoile, 67000 Strasbourg',
+            'is_favorite' => true,
+        ]);
     }
 }

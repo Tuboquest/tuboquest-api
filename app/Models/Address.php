@@ -19,8 +19,12 @@ class Address extends Model
      */
     protected $fillable = [
         'user_id',
-        'is_favorite',
         'address',
+        'is_favorite'
+    ];
+
+    protected $casts = [
+        'is_favorite' => 'boolean',
     ];
 
     public function user(): BelongsTo
@@ -30,6 +34,6 @@ class Address extends Model
 
     public function sessions(): BelongsToMany
     {
-        return $this->belongsToMany(Session::class);
+        return $this->belongsToMany(ParkSession::class);
     }
 }

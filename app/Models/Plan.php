@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Stripe\StripeClient;
 
 class Plan extends Model
 {
@@ -24,6 +25,27 @@ class Plan extends Model
         'duration',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($plan) {
+            // $stripe = new StripeClient(
+            //     config('services.stripe.secret')
+            // );
+            // $stripePlan = $stripe->products->create([
+            //     'name' => $plan->name,
+            // ]);
+            // $stripePlan = $stripe->prices->create([
+            //     'unit_amount' => $plan->amount,
+            //     'currency' => 'usd',
+            //     'recurring' => ['interval' => 'month'],
+            //     'product' => $stripePlan->id,
+            // ]);
+            // $plan->stripe_id = $stripePlan->id;
+        });
+    }
+    
     public function subscriptions(): HasMany
     { 
         return $this->hasMany(Subscription::class);
