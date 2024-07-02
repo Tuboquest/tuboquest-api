@@ -25,9 +25,9 @@ class DiskResource extends Resource
                     ->relationship('user', 'name'),
                 Forms\Components\TextInput::make('pairing_code')
                     ->maxLength(4)
-                    ->minLength(4)
-                    ->numeric()
-                    ->required(),
+                    ->numeric(),
+                Forms\Components\TextInput::make('host'),
+                Forms\Components\TextInput::make('name')
             ]);
     }
 
@@ -37,6 +37,11 @@ class DiskResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('host')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -49,8 +54,8 @@ class DiskResource extends Resource
                 Tables\Columns\TextColumn::make('serial_number')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('token')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('pairing_code')
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('is_paired')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('user.name')
@@ -58,8 +63,6 @@ class DiskResource extends Resource
                 Tables\Columns\TextColumn::make('angle')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('pairing_code')
-                    ->searchable(),
             ])
             ->filters([
                 //

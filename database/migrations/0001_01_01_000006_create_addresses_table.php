@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
-            $table->foreignUuid('user_id')->nullable()->default(null)->constrained('users')->nullOnDelete();
+            $table->foreignUuid('user_id')
+                ->nullable()
+                ->default(null)
+                ->constrained('users')
+                ->nullOnDelete();
             $table->boolean('is_favorite')->default(false);
             $table->string('address');
         });

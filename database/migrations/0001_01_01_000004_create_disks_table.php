@@ -14,14 +14,19 @@ return new class extends Migration
         Schema::create('disks', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
+            $table->string('host')->unique();
             $table->string('serial_number');
             $table->string('token');
+            $table->string('name');
             $table->boolean('is_paired')->default(false);
-            $table->foreignUuid('user_id')->nullable()->default(null)->constrained('users')->nullOnDelete();
+            $table->foreignUuid('user_id')
+                ->nullable()
+                ->default(null)
+                ->constrained('users')
+                ->nullOnDelete();
             $table->integer('angle')->default(0);
             $table->string('pairing_code', 4);
         });
-
     }
 
     /**

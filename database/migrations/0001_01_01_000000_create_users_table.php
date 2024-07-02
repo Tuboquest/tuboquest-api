@@ -14,13 +14,17 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
-            $table->string('name')->nullable()->default(null);
+            $table->string('name')
+                ->nullable()
+                ->default(null);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_admin')->default(false);
             $table->boolean('app_installed')->default(false);
-            $table->string('passcode', 4)->nullable()->default(null);
+            $table->string('passcode')
+                ->nullable()
+                ->default(null);
             $table->boolean('is_premium')->default(false);
             $table->rememberToken();
         });

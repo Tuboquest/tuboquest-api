@@ -59,9 +59,8 @@ class AuthController extends Controller
         return response()->noContent();
     }
 
-    public function forgotPassword(Request $request) {
-    }
-    
+    public function forgotPassword(Request $request) {}
+
     public function forgotPasscode(Request $request) {}
 
     public function resetPassword(Request $request) {}
