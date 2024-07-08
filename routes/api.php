@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommandController;
 use App\Http\Controllers\DiskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/me', function (Request $request) {
         return $request->user();
     });
+
+    Route::post('/rotate', [CommandController::class, 'rotate'])
+        ->name('rotate');
 
     Route::get('/disks', [DiskController::class, 'index'])
         ->name('disks.index');

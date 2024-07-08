@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Enum\DiskApi;
+use App\Http\Requests\RotateDiskRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
+class CommandController extends Controller
+{
+    public function rotate(RotateDiskRequest $request)
+    {
+        $angle = $request->input('angle');
+
+        $disk = auth()->user()->disk;
+
+        $disk->angle = $angle;
+
+        $disk->save();
+
+        try {
+            Http::post($disk->host . DiskApi::ROTATE->value, [
+                'angle' => $angle
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to rotate the disk',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Rotating the disk'
+        ]);
+    }
+
+    public function getAngle()
+    {
+        $disk = auth()->user()->disk;
+
+        try {
+            $response = Http::get($disk->host . DiskApi::ANGLE_STATUS);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to get the angle',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+
+        return response()->json([
+            'angle' => $response->json()['angle']
+        ]);
+    }
+}
