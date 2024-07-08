@@ -51,5 +51,17 @@ class DatabaseSeeder extends Seeder
             'address' => '1 rue de Rivétoile, 67000 Strasbourg',
             'is_favorite' => true,
         ]);
+
+        $Alexis = User::factory()
+            ->create([
+                'name' => 'Alexis',
+                'email' => 'alexis.henry150357@gmail.com'
+            ]);
+
+        $Benjamin = User::factory()
+            ->create([
+                'name' => 'Benjamin',
+                'email' => 'benjamin.faechtig@gmail.com'
+            ]);
     }
 }
