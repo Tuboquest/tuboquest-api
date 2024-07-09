@@ -30,6 +30,9 @@ class WelcomeEmail extends Mailable
     public function build()
     {
         return $this->subject('TUBOQUEST INFORMATION')
-                    ->view('emails.welcomeEmail');
+                    ->view('emails.welcomeEmail')
+                    ->with(
+                        'imagePath', env('APP_URL') . '/assets/logo.png'
+                    );
     }
 }
