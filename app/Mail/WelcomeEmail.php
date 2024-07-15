@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class WelcomeEmail extends Mailable
 {
@@ -29,10 +30,9 @@ class WelcomeEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('TUBOQUEST INFORMATION')
-                    ->view('emails.welcomeEmail')
-                    ->with(
-                        'imagePath', env('APP_URL') . '/assets/logo.png'
-                    );
+        $url = Storage::url('img/logo.png');
+        return $this->view('emails.welcomeEmail')
+                    ->subject('TUBOQUEST INFORMATION')
+                    ->with(['logoUrl' => $url]);
     }
 }

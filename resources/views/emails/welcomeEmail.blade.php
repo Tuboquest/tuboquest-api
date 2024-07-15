@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #ffffff;
+            color: #ffffff;
             margin: 0;
             padding: 0;
         }
@@ -16,6 +17,7 @@
             max-width: 600px;
             margin: 0 auto;
             background-color: #ffffff;
+            color: #ffffff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
@@ -47,7 +49,7 @@
             border-radius: 5px;
         }
         .footer {
-            background-color: #f4f4f4;
+            background-color: #ffffff;
             padding: 10px;
             text-align: center;
             font-size: 12px;
@@ -63,15 +65,13 @@
         <div class="content">
             <p>Bonjour Monsieur Nom</p>
             <p>Nous sommes ravis de vous accueillir dans notre communauté. Merci de vous être inscrit !</p>
-            
+        
             <p>Cordialement,<br>L'équipe TuboQuest</p>
 
-            @include("emails.logo")
-
-            
-    </div>
+            <img src="{{ $logoUrl }}" alt="tuboquest logo"/>
+        </div>
         <div class="footer">
-        <p>© 2024 TuboQuest Corporation. Tous droits réservés.</p>
+            <p>© 2024 TuboQuest Corporation. Tous droits réservés.</p>
         </div>
     </div>
 </body>

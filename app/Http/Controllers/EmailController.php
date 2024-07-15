@@ -10,7 +10,7 @@ class EmailController extends Controller
 {
     public function welcomeEmail(Request $request)
     {
-        Mail::to(auth()->user()->email)->send(new welcomeEmail());
+        Mail::to(auth()->user()->email)->send(new WelcomeEmail());
 
         return response()->json(['message' => 'Email sent successfully']);
     }
