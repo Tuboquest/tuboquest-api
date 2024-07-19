@@ -14,7 +14,13 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
-            $table->string('name')
+            $table->string('firstname')
+                ->nullable()
+                ->default(null);
+            $table->string('lastname')
+                ->nullable()
+                ->default(null);
+            $table->string('country')
                 ->nullable()
                 ->default(null);
             $table->string('email')->unique();
@@ -34,11 +40,11 @@ return new class extends Migration
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
-        
+
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignUuid('user_id')
-            ->nullable()
+                ->nullable()
                 ->constrained()
                 ->nullOnDelete();
             $table->string('ip_address', 45)->nullable();

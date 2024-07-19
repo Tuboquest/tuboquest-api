@@ -4,32 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\SetPasscodeRequest;
+use App\Mail\Connexion;
+use App\Mail\ForgotPasscode;
+use App\Mail\ForgotPassword;
+use App\Mail\PasscodeUpdated;
+use App\Mail\PasswordUpdated;
+use App\Mail\Welcome;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-    public function login(LoginRequest $request) {
+    public function login(LoginRequest $request)
+    {
         if (!auth()->attempt($request->validated())) {
             return response()->json(['message' => 'Invalid credentials'], 422);
         }
 
-        $token = $request->user()->createToken('auth_token')->plainTextToken;
+        $user = $request->user();
+        $token = $user->createToken('auth_token')->plainTextToken;
+        Mail::to($user->email)->send(new Connexion());
 
         return response()->json(
             [
-                ...$request->user()->toArray(),
+                ...$user->toArray(),
                 'token' => $token
             ],
             200
         );
     }
 
-    public function register(RegisterRequest $request) {
+    public function register(RegisterRequest $request)
+    {
         $user = User::create($request->validated());
         $token = $user->createToken('auth_token')->plainTextToken;
+        Mail::to($user->email)->send(new Welcome());
         return response()->json(
             [
                 ...$user->toArray(),
@@ -39,14 +52,17 @@ class AuthController extends Controller
         );
     }
 
-    public function setPasscode(SetPasscodeRequest $request) {
+    public function setPasscode(SetPasscodeRequest $request)
+    {
         $user = $request->user();
         $user->passcode = Hash::make($request->passcode);
         $user->save();
+        Mail::to($user->email)->send(new PasscodeUpdated());
         return $user;
     }
 
-    public function verifyPasscode(Request $request) {
+    public function verifyPasscode(Request $request)
+    {
         $user = $request->user();
         if (!Hash::check($request->passcode, $user->passcode)) {
             return response()->json(['message' => 'Invalid passcode'], 422);
@@ -54,14 +70,47 @@ class AuthController extends Controller
         return response()->noContent();
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $request->user()->currentAccessToken()->delete();
         return response()->noContent();
     }
 
-    public function forgotPassword(Request $request) {}
+    public function forgotPassword()
+    {
+        try {
+            $user = auth()->user();
 
-    public function forgotPasscode(Request $request) {}
+            Mail::to($user->email)->send(new ForgotPassword());
 
-    public function resetPassword(Request $request) {}
+            return response()->noContent();
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred'], 500);
+        }
+    }
+
+    public function forgotPasscode()
+    {
+        try {
+            $user = auth()->user();
+
+            Mail::to($user->email)->send(new ForgotPasscode());
+
+            return response()->noContent();
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred'], 500);
+        }
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        try {
+            auth()->user->password = Hash::make($request->password);
+            auth()->user->save();
+            Mail::to(auth()->user()->email)->send(new PasswordUpdated());
+            return response()->noContent();
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred'], 500);
+        }
+    }
 }

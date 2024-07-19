@@ -3,7 +3,10 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DiskController;
 use App\Http\Controllers\EmailController;
+use App\Mail\Welcome;
+use App\Mail\WelcomeEmail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest:sanctum'])->group(function () {
@@ -18,12 +21,14 @@ Route::middleware(['guest:sanctum'])->group(function () {
 
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])
         ->name('reset-password');
-    
 });
 
-
-
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/test', function (Request $request) {
+        Mail::to($request->user())->queue(new Welcome());
+        return response()->json(['message' => 'Email sent successfully']);
+    });
+
     Route::get('/me', function (Request $request) {
         return $request->user();
     });
@@ -48,6 +53,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/verify-passcode', [AuthController::class, 'verifyPasscode'])
         ->name('verify-passcode');
-
-    Route::post('/welcome-email', [EmailController::class, 'welcomeEmail']); // Road Adding for Email Notification
 });
