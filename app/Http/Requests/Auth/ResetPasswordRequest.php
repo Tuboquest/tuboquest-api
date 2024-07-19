@@ -3,9 +3,8 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class SetPasscodeRequest extends FormRequest
+class ResetPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +22,7 @@ class SetPasscodeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'passcode' => ['required', 'string', 'min:4', 'max:4', 'digits:4']
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
-    }
-
-    public function failedValidation($validator)
-    {
-        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }

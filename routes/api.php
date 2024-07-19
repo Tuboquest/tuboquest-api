@@ -3,7 +3,14 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommandController;
 use App\Http\Controllers\DiskController;
+use App\Mail\Connexion;
+use App\Mail\ForgotPasscode;
+use App\Mail\ForgotPassword;
+use App\Mail\PasscodeUpdated;
+use App\Mail\PasswordUpdated;
+use App\Mail\Welcome;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest:sanctum'])->group(function () {
@@ -20,12 +27,14 @@ Route::middleware(['guest:sanctum'])->group(function () {
         ->name('reset-password');
 });
 
-
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/me', function (Request $request) {
         return $request->user();
     });
 
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
+  
     Route::post('/rotate', [CommandController::class, 'rotate'])
         ->name('rotate');
 
@@ -37,9 +46,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/disks/{disk}/unpair', [DiskController::class, 'unpair'])
         ->name('disks.unpair');
-
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->name('logout');
 
     Route::post('/set-passcode', [AuthController::class, 'setPasscode'])
         ->name('set-passcode');

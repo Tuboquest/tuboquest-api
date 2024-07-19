@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
         $default = User::factory()
             ->has(Disk::factory())
             ->create([
-                'name' => 'John',
+                'firstname' => 'John',
+                'lastname' => 'Doe',
                 'email' => 'john@tuboquest.fr',
             ]);
 
@@ -27,7 +28,8 @@ class DatabaseSeeder extends Seeder
         $premium = User::factory()
             ->has(Disk::factory())
             ->create([
-                'name' => 'Mathias',
+                'firstname' => 'Mathias',
+                'lastname' => 'Eldigos',
                 'email' => 'mathias@tuboquest.fr',
                 'is_premium' => true,
             ]);
@@ -37,12 +39,11 @@ class DatabaseSeeder extends Seeder
             'is_favorite' => true,
         ]);
 
-        // todo: create payment and subscription
-
         $admin = User::factory()
             ->has(Disk::factory())
             ->create([
-                'name' => 'Willy',
+                'firstname' => 'Willy',
+                'lastname' => 'Wonka',
                 'email' => 'willy@tuboquest.fr',
                 'is_admin' => true,
             ]);
@@ -51,5 +52,19 @@ class DatabaseSeeder extends Seeder
             'address' => '1 rue de Rivétoile, 67000 Strasbourg',
             'is_favorite' => true,
         ]);
+
+        User::factory()
+            ->create([
+                'firstname' => 'Alexis',
+                'lastname' => 'Henry',
+                'email' => 'alexis.henry150357@gmail.com'
+            ]);
+
+        User::factory()
+            ->create([
+                'firstname' => 'Benjamin',
+                'lastname' => 'Faechtig',
+                'email' => 'benjamin.faechtig@gmail.com'
+            ]);
     }
 }

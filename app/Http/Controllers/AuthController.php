@@ -4,11 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\SetPasscodeRequest;
+use App\Mail\Connexion;
+use App\Mail\ForgotPasscode;
+use App\Mail\ForgotPassword;
+use App\Mail\PasscodeUpdated;
+use App\Mail\PasswordUpdated;
+use App\Mail\Welcome;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -18,8 +27,9 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 422);
         }
 
-        $token = $request->user()->createToken('auth_token')->plainTextToken;
-
+        $user = $request->user();
+        $token = $user->createToken('auth_token')->plainTextToken;
+        Mail::to($user->email)->send(new Connexion());
         return response()->json(
             [
                 ...(new UserResource(
@@ -35,6 +45,7 @@ class AuthController extends Controller
     {
         $user = User::create($request->validated());
         $token = $user->createToken('auth_token')->plainTextToken;
+        Mail::to($user->email)->send(new Welcome($user->email));
         return response()->json(
             [
                 ...(new UserResource(
@@ -51,6 +62,7 @@ class AuthController extends Controller
         $user = $request->user();
         $user->passcode = Hash::make($request->passcode);
         $user->save();
+        Mail::to($user->email)->send(new PasscodeUpdated());
         return response()->noContent();
     }
 
@@ -69,15 +81,36 @@ class AuthController extends Controller
         return response()->noContent();
     }
 
-    public function forgotPassword(Request $request)
+    public function forgotPassword()
     {
+        try {
+            $user = auth()->user();
+            Mail::to($user->email)->send(new ForgotPassword());
+            return response()->noContent();
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred'], 500);
+        }
     }
 
-    public function forgotPasscode(Request $request)
+    public function forgotPasscode()
     {
+        try {
+            $user = auth()->user();
+            Mail::to($user->email)->send(new ForgotPasscode());
+            return response()->noContent();
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred'], 500);
+        }
     }
 
-    public function resetPassword(Request $request)
+    public function resetPassword(ResetPasswordRequest $request)
     {
-    }
+        try {
+            auth()->user->password = Hash::make($request->password);
+            auth()->user->save();
+            Mail::to(auth()->user()->email)->send(new PasswordUpdated());
+            return response()->noContent();
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred'], 500);
+        }
 }
