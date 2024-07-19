@@ -12,6 +12,7 @@ use App\Mail\ForgotPassword;
 use App\Mail\PasscodeUpdated;
 use App\Mail\PasswordUpdated;
 use App\Mail\Welcome;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,9 @@ class AuthController extends Controller
         Mail::to($user->email)->send(new Connexion());
         return response()->json(
             [
-                ...$user->toArray(),
+                ...(new UserResource(
+                    $request->user()
+                ))->toArray($request),
                 'token' => $token
             ],
             200
@@ -45,7 +48,9 @@ class AuthController extends Controller
         Mail::to($user->email)->send(new Welcome($user->email));
         return response()->json(
             [
-                ...$user->toArray(),
+                ...(new UserResource(
+                    $user
+                ))->toArray($request),
                 'token' => $token
             ],
             201
@@ -58,7 +63,7 @@ class AuthController extends Controller
         $user->passcode = Hash::make($request->passcode);
         $user->save();
         Mail::to($user->email)->send(new PasscodeUpdated());
-        return $user;
+        return response()->noContent();
     }
 
     public function verifyPasscode(Request $request)
@@ -108,5 +113,4 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred'], 500);
         }
-    }
 }

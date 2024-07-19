@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommandController;
 use App\Http\Controllers\DiskController;
 use App\Mail\Connexion;
 use App\Mail\ForgotPasscode;
@@ -33,6 +34,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
+  
+    Route::post('/rotate', [CommandController::class, 'rotate'])
+        ->name('rotate');
 
     Route::get('/disks', [DiskController::class, 'index'])
         ->name('disks.index');
@@ -42,8 +46,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/disks/{disk}/unpair', [DiskController::class, 'unpair'])
         ->name('disks.unpair');
-
-
 
     Route::post('/set-passcode', [AuthController::class, 'setPasscode'])
         ->name('set-passcode');
