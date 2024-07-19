@@ -27,10 +27,12 @@ Route::middleware(['guest:sanctum'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-
     Route::get('/me', function (Request $request) {
         return $request->user();
     });
+
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
 
     Route::get('/disks', [DiskController::class, 'index'])
         ->name('disks.index');
@@ -41,8 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/disks/{disk}/unpair', [DiskController::class, 'unpair'])
         ->name('disks.unpair');
 
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->name('logout');
+
 
     Route::post('/set-passcode', [AuthController::class, 'setPasscode'])
         ->name('set-passcode');

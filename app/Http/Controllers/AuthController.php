@@ -14,6 +14,7 @@ use App\Mail\PasswordUpdated;
 use App\Mail\Welcome;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -28,7 +29,6 @@ class AuthController extends Controller
         $user = $request->user();
         $token = $user->createToken('auth_token')->plainTextToken;
         Mail::to($user->email)->send(new Connexion());
-
         return response()->json(
             [
                 ...$user->toArray(),
@@ -42,7 +42,7 @@ class AuthController extends Controller
     {
         $user = User::create($request->validated());
         $token = $user->createToken('auth_token')->plainTextToken;
-        Mail::to($user->email)->send(new Welcome());
+        Mail::to($user->email)->send(new Welcome($user->email));
         return response()->json(
             [
                 ...$user->toArray(),

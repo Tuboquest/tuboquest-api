@@ -6,7 +6,7 @@
             <h1>Welcome !</h1>
         </div>
         <div class="content">
-            <p>Hello, <b>{{ $user->email }}</b> !</p>
+            <p>Hello, <b>{{ $email }}</b> !</p>
 
             <p>
                 Welcome to TuboQuest! We are excited to have you on board. If you have any questions or need assistance,

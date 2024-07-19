@@ -16,7 +16,9 @@ class Welcome extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(
+        private string $email = ''
+    )
     {
         //
     }
@@ -39,7 +41,7 @@ class Welcome extends Mailable
         return new Content(
             view: 'mail.welcome',
             with: [
-                'user' => auth()->user()
+                'email' => $this->email,
             ],
         );
     }
