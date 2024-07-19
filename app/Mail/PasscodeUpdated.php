@@ -37,7 +37,10 @@ class PasscodeUpdated extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.passcode-updated',
+            view: 'mail.passcode-updated',
+            with: [
+                'user' => auth()->user()
+            ],
         );
     }
 

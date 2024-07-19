@@ -80,9 +80,7 @@ class AuthController extends Controller
     {
         try {
             $user = auth()->user();
-
             Mail::to($user->email)->send(new ForgotPassword());
-
             return response()->noContent();
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred'], 500);
@@ -93,9 +91,7 @@ class AuthController extends Controller
     {
         try {
             $user = auth()->user();
-
             Mail::to($user->email)->send(new ForgotPasscode());
-
             return response()->noContent();
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred'], 500);

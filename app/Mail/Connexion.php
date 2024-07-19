@@ -37,7 +37,10 @@ class Connexion extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.connexion',
+            view: 'mail.connexion',
+            with: [
+                'user' => auth()->user()
+            ],
         );
     }
 

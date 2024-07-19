@@ -18,6 +18,7 @@ class Welcome extends Mailable
      */
     public function __construct()
     {
+        //
     }
 
     /**
@@ -36,7 +37,10 @@ class Welcome extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.welcome',
+            view: 'mail.welcome',
+            with: [
+                'user' => auth()->user()
+            ],
         );
     }
 

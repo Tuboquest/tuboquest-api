@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DiskController;
-use App\Http\Controllers\EmailController;
+use App\Mail\Connexion;
+use App\Mail\ForgotPasscode;
+use App\Mail\ForgotPassword;
+use App\Mail\PasscodeUpdated;
+use App\Mail\PasswordUpdated;
 use App\Mail\Welcome;
-use App\Mail\WelcomeEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -24,10 +27,6 @@ Route::middleware(['guest:sanctum'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/test', function (Request $request) {
-        Mail::to($request->user())->queue(new Welcome());
-        return response()->json(['message' => 'Email sent successfully']);
-    });
 
     Route::get('/me', function (Request $request) {
         return $request->user();

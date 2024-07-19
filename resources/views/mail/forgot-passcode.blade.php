@@ -1,12 +1,30 @@
-<x-mail::message>
-# Introduction
+@extends('layouts.email')
 
-The body of your message.
+@section('content')
+    <div class="container">
+        <div class="header">
+            <h1>Welcome !</h1>
+        </div>
+        <div class="content">
+            <p>Hello, <b>{{ $user->email }}</b> !</p>
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+            <p>
+                We are sorry to hear that you have forgotten your passcode. Please use the following to code to reset your
+                passcode:
+            </p>
 
-Thanks,<br>
-{{ config('app.name') }}
-</x-mail::message>
+            <p>
+                <b>${code}</b>
+            </p>
+
+            <p>
+                Respectfully, the TuboQuest team.
+            </p>
+        </div>
+        <div class="footer">
+            <p>© 2024 TuboQuest Corporation. All rights reserved.</p>
+        </div>
+    </div>
+@endsection
+
+<p></p>

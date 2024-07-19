@@ -37,7 +37,10 @@ class ForgotPassword extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.forgot-password',
+            view: 'mail.forgot-password',
+            with: [
+                'user' => auth()->user()
+            ],
         );
     }
 
