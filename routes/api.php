@@ -32,6 +32,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 
+    Route::get('/notifications', function (Request $request) {
+        return $request->user()->notifications;
+    });
+
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
   
