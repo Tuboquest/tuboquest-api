@@ -24,7 +24,8 @@ class AddressResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name'),
+                    ->relationship('user', 'firstname')
+                    ->required(),
                 Forms\Components\TextInput::make('address')
                     ->required(),
                 Forms\Components\Toggle::make('is_favorite')
@@ -48,9 +49,12 @@ class AddressResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.firstname')
+                    ->searchable()
+                    ->label('User')
+                    ->formatStateUsing(function ($state, Address $address) {
+                        return $address->user->firstname . ' ' . $address->user->lastname;
+                    }),
                 Tables\Columns\IconColumn::make('is_favorite')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('address')

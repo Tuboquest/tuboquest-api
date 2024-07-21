@@ -35,9 +35,12 @@ class PaymentResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.firstname')
+                    ->searchable()
+                    ->label('Name')
+                    ->formatStateUsing(function ($state, Payment $payment) {
+                        return $payment->user->firstname . ' ' . $payment->user->lastname;
+                    }),
                 Tables\Columns\TextColumn::make('amount')
                     ->numeric()
                     ->sortable(),

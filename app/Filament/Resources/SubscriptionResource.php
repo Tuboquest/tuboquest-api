@@ -39,8 +39,9 @@ class SubscriptionResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.firstname')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.lastname')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('plan.name')
                     ->numeric()

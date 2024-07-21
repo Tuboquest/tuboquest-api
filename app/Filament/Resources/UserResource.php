@@ -23,10 +23,16 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('firstname')
+                    ->required(),
+                Forms\Components\TextInput::make('lastname')
                     ->required(),
                 Forms\Components\TextInput::make('email')
                     ->email()
+                    ->required(),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->visibleOn('create')
                     ->required(),
                 Forms\Components\Toggle::make('is_admin')
                     ->required(),
@@ -51,8 +57,12 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('firstname')
+                    ->searchable()
+                    ->label('Name')
+                    ->formatStateUsing(function ($state, User $user) {
+                        return $user->firstname . ' ' . $user->lastname;
+                    }),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_admin')

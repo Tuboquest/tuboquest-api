@@ -22,12 +22,15 @@ class DiskResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name'),
+                    ->relationship('user', 'firstname'),
                 Forms\Components\TextInput::make('pairing_code')
                     ->maxLength(4)
-                    ->numeric(),
-                Forms\Components\TextInput::make('host'),
+                    ->numeric()
+                    ->required(),
+                Forms\Components\TextInput::make('host')
+                    ->required(),
                 Forms\Components\TextInput::make('name')
+                    ->required(),
             ]);
     }
 
@@ -58,8 +61,12 @@ class DiskResource extends Resource
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_paired')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.firstname')
+                    ->searchable()
+                    ->label('User')
+                    ->formatStateUsing(function ($state, Disk $disk) {
+                        return $disk->user->firstname . ' ' . $disk->user->lastname;
+                    }),
                 Tables\Columns\TextColumn::make('angle')
                     ->numeric()
                     ->sortable(),
