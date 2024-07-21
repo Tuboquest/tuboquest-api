@@ -12,7 +12,7 @@ class RotateDiskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->disk !== null;
+        return auth()->user()->disk !== null;
     }
 
     /**

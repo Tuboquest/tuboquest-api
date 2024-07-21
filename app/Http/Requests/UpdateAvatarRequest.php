@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateAvatarRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateAvatarRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,24 @@ class UpdateAvatarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'avatar' => ['string']
         ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'avatar.string' => 'Avatar must be a string',
+        ];
+    }
+
+    public function failedValidation($validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }
