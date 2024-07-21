@@ -5,6 +5,7 @@ use App\Http\Controllers\CommandController;
 use App\Http\Controllers\DiskController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Resources\NotificationResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,9 @@ Route::middleware(['guest:sanctum'])->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/me', function (Request $request) {
-        return $request->user();
+        return response()->json(
+            UserResource::make($request->user())
+        );
     });
 
     Route::post('/logout', [AuthController::class, 'logout'])
