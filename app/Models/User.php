@@ -88,4 +88,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->is_admin;
     }
+
+    public function getFilamentName(): string
+    {
+        return "{$this->firstname} {$this->lastname}";
+    }
 }
