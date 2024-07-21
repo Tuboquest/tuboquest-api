@@ -66,5 +66,11 @@ class DatabaseSeeder extends Seeder
                 'lastname' => 'Faechtig',
                 'email' => 'benjamin.faechtig@gmail.com'
             ]);
+
+        User::all()->each(function (User $user) {
+            $user->notifications()->create([
+                'label' => 'Welcome to TuboQuest',
+            ]);
+        });
     }
 }
