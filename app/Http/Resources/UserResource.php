@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             "lastname" => $this->lastname,
             "email" => $this->email,
             "avatar" => $this->avatar,
-            "avatar" => $this->avatar,
+            "country" => $this->country,
             "has_disk" => (bool) ($this->disk?->id !== null),
             "is_preminum" => (bool) $this->is_premium,
             "created_at" => $this->created_at,
