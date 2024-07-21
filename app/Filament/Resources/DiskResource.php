@@ -64,7 +64,11 @@ class DiskResource extends Resource
                 Tables\Columns\TextColumn::make('user.firstname')
                     ->searchable()
                     ->label('User')
+                    ->default('')
                     ->formatStateUsing(function ($state, Disk $disk) {
+                        if ($disk->user === null) {
+                            return 'Unpaired';
+                        }
                         return $disk->user->firstname . ' ' . $disk->user->lastname;
                     }),
                 Tables\Columns\TextColumn::make('angle')

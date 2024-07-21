@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
 {
@@ -34,6 +31,9 @@ class UserResource extends Resource
                     ->password()
                     ->visibleOn('create')
                     ->required(),
+                Forms\Components\TextInput::make('country')
+                    ->disabled()
+                    ->hiddenOn('create'),
                 Forms\Components\Toggle::make('is_admin')
                     ->required(),
                 Forms\Components\Toggle::make('is_premium')
@@ -65,6 +65,9 @@ class UserResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('country')
+                    ->searchable()
+                    ->default('N/A'),
                 Tables\Columns\IconColumn::make('is_admin')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('is_premium')
