@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enum\NotificationType;
 use App\Models\Disk;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -70,6 +71,7 @@ class DatabaseSeeder extends Seeder
         User::all()->each(function (User $user) {
             $user->notifications()->create([
                 'label' => 'Welcome to TuboQuest',
+                'type' => NotificationType::getRandomValue()
             ]);
         });
     }

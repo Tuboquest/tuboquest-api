@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\NotificationType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class NotificationFactory extends Factory
         return [
             "label" => fake()->sentence(),
             "user_id" => \App\Models\User::factory(),
+            "type" => NotificationType::getRandomValue(),
         ];
     }
 }

@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
-            $table->string('label');
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
+            $table->string('label');
+            $table->integer('type');
         });
     }
 
