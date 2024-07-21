@@ -14,10 +14,7 @@ class ProfileController extends Controller
         
         try {
             $user->update($request->validated());
-
-            return response()->json(
-                UserResource::make($user)
-            );
+            return response()->json(UserResource::make($user));
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while updating profile',
@@ -32,10 +29,10 @@ class ProfileController extends Controller
 
         try {
             $user->update([
-                'avatar' => $request->avatar ?? $user->avatar,
+                'avatar' => $request->get('avatar') ?? $user->avatar,
             ]);
 
-            return response()->json($user);
+            return response()->json(UserResource::make($user));
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while updating profile',
