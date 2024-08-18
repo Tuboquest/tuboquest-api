@@ -31,6 +31,17 @@ class DiskResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('name')
                     ->required(),
+                Forms\Components\Group::make([
+                    Forms\Components\TextInput::make('token')
+                        ->password()
+                        ->revealable()
+                        ->required()
+                        ->disabled()
+                        ->columnSpan(12),
+                ])
+                    ->columns(12)
+                    ->visibleOn('edit')
+                    ->columnSpanFull()
             ]);
     }
 
