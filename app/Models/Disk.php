@@ -43,7 +43,6 @@ class Disk extends Model
 
         static::updating(function ($disk) {
             $disk->is_paired = $disk->user_id !== null;
-            $disk->token = bin2hex(random_bytes(32));
         });
     }
 
