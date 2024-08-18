@@ -20,36 +20,42 @@ class CommandController extends Controller
         $disk->save();
 
         try {
-            Http::post($disk->host . DiskApi::ROTATE->value, [
-                'angle' => $angle
+            Http::post('http://' . $disk->host . DiskApi::ROTATE->value, [
+                'angle' => $angle,
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to rotate the disk',
-                'error' => $e->getMessage(),
-            ], 500);
+            return response()->json(
+                [
+                    'message' => 'Failed to rotate the disk',
+                    'error' => $e->getMessage(),
+                ],
+                500,
+            );
         }
 
         return response()->json([
-            'message' => 'Rotating the disk'
+            'message' => 'Rotating the disk',
         ]);
     }
 
-    public function getAngle()
+    public function angle()
     {
         $disk = auth()->user()->disk;
 
         try {
-            $response = Http::get($disk->host . DiskApi::ANGLE_STATUS);
+            $response = Http::get('http://' . $disk->host . DiskApi::ANGLE_STATUS->value);
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to get the angle',
-                'error' => $e->getMessage(),
-            ], 500);
+            return response()->json(
+                [
+                    'message' => 'Failed to get the angle',
+                    'error' => $e->getMessage(),
+                ],
+                500,
+            );
         }
 
         return response()->json([
-            'angle' => $response->json()['angle']
+            'angle' => $response->json()['angle'],
         ]);
     }
 }
