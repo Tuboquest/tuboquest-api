@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Berkayk\OneSignal\OneSignalFacade;
 
 class Alias extends ServiceProvider
 {
@@ -15,7 +15,7 @@ class Alias extends ServiceProvider
     {
         $loader = AliasLoader::getInstance();
 
-        $loader->alias('OneSignal', Berkayk\OneSignal\OneSignalFacade::class)
+        $loader->alias('OneSignal', OneSignalFacade::class);
     }
 
     /**
