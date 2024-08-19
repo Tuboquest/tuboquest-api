@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
+            'disk' => \App\Http\Middleware\EnsureDiskIsAuthenticated::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

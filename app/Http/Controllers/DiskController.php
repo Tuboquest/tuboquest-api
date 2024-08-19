@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateBatteryRequest;
 use App\Http\Resources\DiskResource;
 use App\Models\Disk;
 use Illuminate\Http\Request;
@@ -15,6 +16,42 @@ class DiskController extends Controller
                 Disk::unpaired()->get()
             )
         );
+    }
+
+    public function current(Request $request)
+    {
+        $disk = $request->attributes->get('disk');
+
+        if ($disk === null) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        return response()->json(
+            new DiskResource($disk)
+        );
+    }
+
+    public function battery(UpdateBatteryRequest $request)
+    {
+        $disk = $request->attributes->get('disk');
+
+        if ($disk === null) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $disk->battery = $request->input('battery');
+        $disk->save();
+
+        return response()->json([], 204);
+    }
+
+    public function event(Request $request)
+    {
+        return response()->json([], 204);
     }
 
     public function pair(Disk $disk, Request $request)
