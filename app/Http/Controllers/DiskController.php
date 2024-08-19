@@ -17,6 +17,17 @@ class DiskController extends Controller
         );
     }
 
+    public function current(Request $request)
+    {
+        return response()->json(
+            new DiskResource($request->disk())
+        );
+    }
+
+    public function verify()
+    {
+    }
+
     public function pair(Disk $disk, Request $request)
     {
         $user = auth()->user();

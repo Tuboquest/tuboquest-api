@@ -77,3 +77,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ->name('command.get-angle');
     });
 });
+
+Route::middleware(['auth:disk'])->group(function () {
+    Route::post('/disk/current', [DiskController::class, 'current'])
+        ->name('disk.current');
+
+    Route::post('/disk/verify', [DiskController::class, 'verify'])
+        ->name('disk.verify');
+});
