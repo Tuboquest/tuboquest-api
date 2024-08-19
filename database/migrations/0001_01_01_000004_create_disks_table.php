@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('serial_number');
             $table->string('token');
             $table->string('name');
+            $table->integer('battery')->default(100);
             $table->boolean('is_paired')->default(false);
             $table->foreignUuid('user_id')
                 ->nullable()

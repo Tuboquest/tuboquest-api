@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Actions;
+namespace App\Actions;
 
 use App\Models\Disk;
 use Illuminate\Support\Facades\Http;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class CurrentDiskAngle
 {
 
-    private Disk $disk = null;
+    private ?Disk $disk = null;
 
     public function __construct()
     {
@@ -21,6 +21,7 @@ class CurrentDiskAngle
     {
         try {
             $response = Http::post('http://' . $this->disk->host . DiskApi::ANGLE_STATUS->value, [
+                'disk_token' => $this->disk->token,
                 'user_token' => Auth::user()->token,
             ]);
         } catch (\Exception $e) {

@@ -57,6 +57,8 @@ class DiskResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('host')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('battery')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

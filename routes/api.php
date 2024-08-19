@@ -72,16 +72,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'c/'], function () {
         Route::post('rotate', [CommandController::class, 'rotate'])
             ->name('command.rotate');
-            
+
         Route::get('angle', [CommandController::class, 'angle'])
-        ->name('command.get-angle');
+            ->name('command.angle');
     });
 });
 
-Route::middleware(['auth:disk'])->group(function () {
+Route::middleware(['disk'])->group(function () {
     Route::post('/disk/current', [DiskController::class, 'current'])
         ->name('disk.current');
 
-    Route::post('/disk/verify', [DiskController::class, 'verify'])
-        ->name('disk.verify');
+    Route::put('/disk/battery', [DiskController::class, 'battery'])
+        ->name('disk.battery');
+
+    Route::post('/disk/event', [DiskController::class, 'event'])
+        ->name('disk.event');
 });

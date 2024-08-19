@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             "avatar" => $this->avatar,
             "country" => $this->country,
             "has_disk" => (bool) ($this->disk?->id !== null),
+            "disk" => $this->disk ? new DiskResource($this->disk) : null,
             "is_preminum" => (bool) $this->is_premium,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,

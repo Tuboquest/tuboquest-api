@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Actions;
+namespace App\Actions;
 
 use App\Models\Disk;
 use Illuminate\Support\Facades\Http;
@@ -9,34 +9,38 @@ use Illuminate\Support\Facades\Auth;
 
 class RotateDisk
 {
-    private Disk $disk = null;
+    private ?Disk $disk = null;
 
-    public function __construct(
-        private int $angle,
-    )
-    {
+    public function handle(
+        int $angle
+    ) {
         $this->disk = Auth::user()->disk;
-    }
 
-    public function handle()
-    {
-        $this->disk->angle = $this->angle;
+        if ($this->disk) {
+            if ($this->disk->angle === $angle) {
+                return response()->json([
+                    'message' => 'The disk is already at the requested angle',
+                ]);
+            }
 
-        $this->disk->save();
+            try {
+                Http::post('http://' . $this->disk->host . DiskApi::ROTATE->value, [
+                    'angle' => $angle,
+                    'disk_token' => $this->disk->token,
+                    'user_token' => Auth::user()->token,
+                ]);
 
-        try {
-            Http::post('http://' . $this->disk->host . DiskApi::ROTATE->value, [
-                'angle' => $this->angle,
-                'user_token' => Auth::user()->token,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(
-                [
-                    'message' => 'Failed to rotate the disk',
-                    'error' => $e->getMessage(),
-                ],
-                500,
-            );
+                $this->disk->angle = $angle;
+                $this->disk->save();
+            } catch (\Exception $e) {
+                return response()->json(
+                    [
+                        'message' => 'Failed to rotate the disk',
+                        'error' => $e->getMessage(),
+                    ],
+                    500,
+                );
+            }
         }
 
         return response()->json([

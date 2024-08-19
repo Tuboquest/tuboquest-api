@@ -24,6 +24,7 @@ class Disk extends Model
         'token',
         'host',
         'name',
+        'battery',
         'is_paired',
         'user_id',
         'angle',
