@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommandController;
 use App\Http\Controllers\DiskController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScoreboardController;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -21,6 +22,11 @@ Route::middleware(['guest:sanctum'])->group(function () {
 
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])
         ->name('reset-password');
+
+    Route::get('/scoreboard', [ScoreboardController::class, 'index'])
+        ->name('scoreboard.index');
+    Route::post('/scoreboard', [ScoreboardController::class, 'store'])
+        ->name('scoreboard.store');
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -68,7 +74,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/{disk}/unpair', [DiskController::class, 'unpair'])
             ->name('disks.unpair');
     });
-   
+
     Route::group(['prefix' => 'c/'], function () {
         Route::post('rotate', [CommandController::class, 'rotate'])
             ->name('command.rotate');
