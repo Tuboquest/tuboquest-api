@@ -21,9 +21,18 @@ class CurrentDiskAngle
     {
         try {
             $response = Http::post('http://' . $this->disk->host . DiskApi::ANGLE_STATUS->value, [
-                'disk_token' => $this->disk->token,
-                'user_token' => Auth::user()->token,
+                'disk_token' => $this->disk->token
             ]);
+
+            if ($response->status() === 401) {
+                return response()->json(
+                    [
+                        'message' => 'Failed to get the angle',
+                        'error' => 'Unauthorized',
+                    ],
+                    401
+                );
+            }
         } catch (\Exception $e) {
             return response()->json(
                 [
