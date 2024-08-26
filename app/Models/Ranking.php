@@ -17,6 +17,7 @@ class Ranking extends Model
     public function scopeTop($query, $limit = 10)
     {
         return $query->orderBy('score', 'desc')
-            ->limit($limit);
+            ->limit($limit)
+            ->get();
     }
 }
