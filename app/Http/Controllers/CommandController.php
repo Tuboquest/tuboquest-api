@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CurrentDiskAngle;
-use App\Actions\RotateDisk;
 use App\Http\Requests\RotateDiskRequest;
+
+use App\Commands\CurrentDiskAngle;
+use App\Commands\RotateDisk;
 
 class CommandController extends Controller
 {
