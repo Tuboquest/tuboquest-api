@@ -36,7 +36,6 @@ class Disk extends Model
         parent::boot();
 
         static::creating(function ($disk) {
-            $disk->angle = 0;
             $disk->serial_number = Str::random(20);
             $disk->token = bin2hex(random_bytes(32));
             $disk->is_paired = $disk->user_id !== null;
