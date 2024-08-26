@@ -12,7 +12,7 @@ class RotateDiskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->disk !== null;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class RotateDiskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'angle' => 'required|numeric|min:0|max:360',
+            'angle' => 'required|numeric',
         ];
     }
 

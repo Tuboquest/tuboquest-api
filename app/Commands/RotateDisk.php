@@ -37,7 +37,7 @@ class RotateDisk extends Command
                     }
                 }
 
-                $disk->angle = $angle;
+                $disk->angle += $angle;
                 $disk->save();
             } catch (\Exception $e) {
                 return response()->json(
