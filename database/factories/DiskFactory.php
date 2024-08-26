@@ -27,7 +27,7 @@ class DiskFactory extends Factory
             'host' => fake()->ipv4(),
             'is_paired' => fake()->boolean(),
             'user_id' => null,
-            'angle' => fake()->numberBetween(1, 360),
+            'angle' => 0,
             'pairing_code' => fake()->numberBetween(1000, 9999),
         ];
     }
