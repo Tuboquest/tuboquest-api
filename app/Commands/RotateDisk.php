@@ -52,6 +52,6 @@ class RotateDisk extends Command
 
         return response()->json([
             'message' => 'Disk rotated successfully',
-        ], 204);
+        ], 200);
     }
 }
