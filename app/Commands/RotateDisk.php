@@ -48,10 +48,14 @@ class RotateDisk extends Command
                     500,
                 );
             }
+
+            return response()->json([
+                'message' => 'Disk rotated successfully',
+            ], 200);
         }
 
         return response()->json([
-            'message' => 'Disk rotated successfully',
-        ], 200);
+            'message' => 'Disk not found',
+        ], 404);
     }
 }
