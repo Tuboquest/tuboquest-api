@@ -15,10 +15,18 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PaymentResource extends Resource
 {
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationGroup = 'Premium';
+
     protected static ?string $model = Payment::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function table(Table $table): Table
     {

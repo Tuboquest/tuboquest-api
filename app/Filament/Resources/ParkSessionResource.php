@@ -10,9 +10,18 @@ use Filament\Tables\Table;
 
 class ParkSessionResource extends Resource
 {
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationGroup = 'Disks';
+
     protected static ?string $model = ParkSession::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function canCreate(): bool
     {

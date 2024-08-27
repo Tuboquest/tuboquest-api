@@ -15,9 +15,18 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SubscriptionResource extends Resource
 {
+    protected static ?int $navigationSort = 3;
+
+    protected static ?string $navigationGroup = 'Premium';
+
     protected static ?string $model = Subscription::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function canCreate(): bool
     { 

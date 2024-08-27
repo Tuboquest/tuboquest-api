@@ -13,9 +13,18 @@ use Filament\Tables\Table;
 
 class DiskResource extends Resource
 {
+    protected static ?int $navigationSort = 2;
+    
     protected static ?string $model = Disk::class;
 
+    protected static ?string $navigationGroup = 'Disks';
+
     protected static ?string $navigationIcon = 'heroicon-o-inbox';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {

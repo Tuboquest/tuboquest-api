@@ -12,10 +12,19 @@ use Filament\Tables\Table;
 
 class UserResource extends Resource
 {
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $model = User::class;
+
+    protected static ?string $navigationGroup = 'Users';
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+    
     public static function form(Form $form): Form
     {
         return $form
