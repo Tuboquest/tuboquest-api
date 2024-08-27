@@ -14,6 +14,7 @@ ENV APP_ENV production
 WORKDIR /app
 COPY . .
 COPY .env .env
+RUN touch database/database.sqlite
 RUN composer install --no-interaction --optimize-autoloader
 RUN php artisan key:generate
 RUN php artisan config:cache
