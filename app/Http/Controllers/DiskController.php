@@ -108,7 +108,6 @@ class DiskController extends Controller
 
         $disk->user_id = null;
         $disk->is_paired = false;
-        $disk->pairing_code = null;
         $disk->save();
 
         return response()->json([
