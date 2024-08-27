@@ -13,18 +13,17 @@ class RotateDisk extends Command
         $disk = $this->getDisk();
 
         if ($disk) {
-            if ($disk->angle === $angle) {
-                return response()->json([
-                    'message' => 'The disk is already at the requested angle',
-                ], 400);
-            }
-
             try {
                 if ($this->allowedToMakeRequests()) {
-                    $response = Http::post('http://' . $disk->host . DiskApi::ROTATE->value, [
-                        'angle' => $angle,
-                        'disk_token' => $disk->token
-                    ]);
+                    $response = Http::withHeaders([
+                        "Authorization" => "Bearer {$disk->token}",
+                    ])->post(
+                        'http://' . $disk->host . DiskApi::ROTATE->value,
+                        [
+                            "angle" => $angle,
+                            "date" => now()->format("MM/DD/YYYY"),
+                        ]
+                    );
 
                     if ($response->status() === 401) {
                         return response()->json(
@@ -35,10 +34,17 @@ class RotateDisk extends Command
                             401
                         );
                     }
-                }
 
-                $disk->angle += $angle;
-                $disk->save();
+                    $disk->movements()->create([
+                        'angle' => $angle,
+                        'user_id' => $disk->user_id,
+                    ]);
+                    $disk->angle = $angle;
+                    $disk->save();
+                } else {
+                    $disk->angle += $angle;
+                    $disk->save();
+                }
             } catch (\Exception $e) {
                 return response()->json(
                     [

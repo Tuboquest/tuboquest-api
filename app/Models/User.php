@@ -96,4 +96,9 @@ class User extends Authenticatable implements FilamentUser, HasName
     {
         return "{$this->firstname} {$this->lastname}";
     }
+
+    public function movements(): HasMany
+    {
+        return $this->hasMany(Movement::class);
+    }
 }

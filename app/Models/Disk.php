@@ -65,4 +65,9 @@ class Disk extends Model
     {
         return $query->where('is_paired', false);
     }
+
+    public function movements(): HasMany
+    {
+        return $this->hasMany(Movement::class);
+    }
 }
