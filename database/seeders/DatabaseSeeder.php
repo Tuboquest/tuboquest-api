@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             'host' => '172.20.10.7:8000',
             'pairing_code' => "1234",
             'is_paired' => true,
-            'token' => '290d14b238273fe1ec455418ceb6fbd3ebf77e7b4a91f15432a8f4a61c9bf67e',
+            'token' => '9ce7894750a47ae9406ae8fc29263989cf41ca66e4d538f22698d012456d3c12',
         ]);
 
         User::factory()

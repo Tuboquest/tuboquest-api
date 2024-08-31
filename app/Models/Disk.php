@@ -37,7 +37,9 @@ class Disk extends Model
 
         static::creating(function ($disk) {
             $disk->serial_number = Str::random(20);
-            $disk->token = bin2hex(random_bytes(32));
+            if (! $disk->token) {
+                $disk->token = bin2hex(random_bytes(32));
+            }
             $disk->is_paired = $disk->user_id !== null;
         });
 
