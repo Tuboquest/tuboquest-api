@@ -5,6 +5,7 @@ use App\Http\Controllers\CommandController;
 use App\Http\Controllers\DiskController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScoreboardController;
+use App\Http\Controllers\StatsController;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -46,6 +47,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
             )
         );
     });
+    Route::get('/statistics', [StatsController::class, 'countOfUse'])
+        ->name('statistics.count-of-use');
 
     Route::group(['prefix' => 'profile'], function () {
         Route::put('/', [ProfileController::class, 'update'])
