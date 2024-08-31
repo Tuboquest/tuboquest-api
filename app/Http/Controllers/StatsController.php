@@ -8,7 +8,7 @@ class StatsController extends Controller
 {
     public function countOfUse()
     {
-        return [
+        return response()->json([
             'Janvier' => 100,
             'Février' => 200,
             'Mars' => 300,
@@ -21,6 +21,6 @@ class StatsController extends Controller
             'Octobre' => 1000,
             'Novembre' => 1100,
             'Décembre' => 1200,
-        ];
+        ]);
     }
 }
