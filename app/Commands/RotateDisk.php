@@ -7,6 +7,20 @@ use App\Enum\DiskApi;
 
 class RotateDisk extends Command
 {
+    private function saveRotation(int $angle)
+    {
+        $disk = $this->getDisk();
+
+        if ($disk) {
+            $disk->movements()->create([
+                'angle' => $angle,
+                'user_id' => $disk->user_id,
+            ]);
+            $disk->angle += $angle;
+            $disk->save();
+        }
+    }
+
     public function handle(
         int $angle
     ) {
@@ -35,15 +49,9 @@ class RotateDisk extends Command
                         );
                     }
 
-                    $disk->movements()->create([
-                        'angle' => $angle,
-                        'user_id' => $disk->user_id,
-                    ]);
-                    $disk->angle = $angle;
-                    $disk->save();
+                    $this->saveRotation($angle);
                 } else {
-                    $disk->angle += $angle;
-                    $disk->save();
+                    $this->saveRotation($angle);
                 }
             } catch (\Exception $e) {
                 return response()->json(
