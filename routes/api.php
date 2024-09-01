@@ -49,6 +49,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     Route::get('/statistics', [StatsController::class, 'countOfUse'])
         ->name('statistics.count-of-use');
+    Route::get('/movements', function (Request $request) {
+        return response()->json(
+            $request->user()->movements
+        );
+    })->name('movements');
 
     Route::group(['prefix' => 'profile'], function () {
         Route::put('/', [ProfileController::class, 'update'])
