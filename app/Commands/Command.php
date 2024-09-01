@@ -9,7 +9,7 @@ class Command
 {
     private ?Disk $disk = null;
 
-    private bool $fakeRequests = false;
+    public static bool $fakeRequests = false;
 
     public function __construct()
     {
@@ -24,6 +24,6 @@ class Command
 
     public function allowedToMakeRequests(): bool
     {
-        return $this->disk !== null && ! $this->fakeRequests;
+        return $this->disk !== null && ! self::$fakeRequests;
     }
 }
